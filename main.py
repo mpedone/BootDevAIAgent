@@ -23,7 +23,8 @@ def main():
         print('\nUsage: python main.py "your prompt here"')
         print('Example: python main.py "How do I build a calculator app?"')
         sys.exit(1)
-    user_prompt = " ".join(args)
+    # user_prompt = " ".join(args)
+    user_prompt = " ".join([arg for arg in args if not arg.startswith("--")])
 
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)])
