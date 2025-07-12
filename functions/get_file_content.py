@@ -1,5 +1,6 @@
 import os
 from os.path import getsize, isdir, abspath, join, isfile
+from config import MAX_CHARS
 
 def get_file_content(working_directory, file_path):
     if not working_directory:
@@ -17,9 +18,9 @@ def get_file_content(working_directory, file_path):
         return f'Error: File not found or is not a regular file: "{full_file_path}"'
     try:
         with open(full_file_path, mode='r') as f:
-            read_data = f.read(10000)
-            if getsize(full_file_path) > 10000:
-                read_data += f'[...File "{file_path}" truncated at 10000 characters]'
+            read_data = f.read(MAX_CHARS)
+            if getsize(full_file_path) > MAX_CHARS:
+                read_data += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
             
         return read_data
     except Exception as e:
