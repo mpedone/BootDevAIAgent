@@ -1,10 +1,34 @@
 # tests in the main folder
 
 import unittest, os
-from functions.get_files_info import get_files_info
+from functions.get_file_content import get_file_content
+# from functions.get_files_info import get_files_info
 
-class TestGetFilesInfo(unittest.TestCase):
-    def test_simple(self):
+
+def test():
+    result = get_file_content("calculator", "lorem.txt")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    result = get_file_content("calculator", "main.py")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    result = get_file_content("calculator", "pkg/calculator.py")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    result = get_file_content("calculator", "/bin/cat")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    """ 
+    class TestGetFilesInfo(unittest.TestCase):
+        def test_simple(self):
         test_output = get_files_info("calculator", "pkg")
         expected = "- __pycache__: file_size=4096 bytes, is_dir=True\n- render.py: file_size=766 bytes, is_dir=False\n- calculator.py: file_size=1737 bytes, is_dir=False"
         print(test_output)
@@ -68,25 +92,25 @@ class TestGetFilesInfo(unittest.TestCase):
     def test_working_directory_not_dir(self):
         test_output = get_files_info("main.py", "calculator")
         expected = f'Error: "main.py" is not a directory'
-        self.assertEqual(test_output, expected)
+        self.assertEqual(test_output, expected) """
     
-    # def test_abs_path(self):
-    #     test_output = get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator")
-    #     expected = "- pkg: file_size=4096 bytes, is_dir=True\n- main.py: file_size=575 bytes, is_dir=False\n- tests.py: file_size=1342 bytes, is_dir=False"
-    #     self.assertEqual(test_output, expected)
+    """ def test_abs_path(self):
+        test_output = get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator")
+        expected = "- pkg: file_size=4096 bytes, is_dir=True\n- main.py: file_size=575 bytes, is_dir=False\n- tests.py: file_size=1342 bytes, is_dir=False"
+        self.assertEqual(test_output, expected)
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator")
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/.")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/.")
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent")
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/..")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/..")
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/main.py")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/main.py")
 
-# get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/StaticSite/Public")
+get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/StaticSite/Public") """
 
 
 if __name__ == "__main__":
-    unittest.main()
+    test()
