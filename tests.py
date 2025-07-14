@@ -1,12 +1,28 @@
 # tests in the main folder
 
 import unittest, os
-from functions.get_file_content import get_file_content
+from functions.write_file_content import write_file
+# from functions.get_file_content import get_file_content
 # from functions.get_files_info import get_files_info
 
 
 def test():
-    result = get_file_content("calculator", "lorem.txt")
+    result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    result = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    result = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
+    print("Result for current directory:")
+    print(result)
+    print("")
+
+    """ result = get_file_content("calculator", "lorem.txt")
     print("Result for current directory:")
     print(result)
     print("")
@@ -24,7 +40,7 @@ def test():
     result = get_file_content("calculator", "/bin/cat")
     print("Result for current directory:")
     print(result)
-    print("")
+    print("") """
 
     """ 
     class TestGetFilesInfo(unittest.TestCase):

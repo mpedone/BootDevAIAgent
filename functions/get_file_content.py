@@ -1,5 +1,5 @@
 import os
-from os.path import getsize, isdir, abspath, join, isfile
+from os.path import getsize, abspath, join, isfile
 from config import MAX_CHARS
 
 def get_file_content(working_directory, file_path):
