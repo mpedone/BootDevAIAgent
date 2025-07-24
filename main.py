@@ -3,7 +3,9 @@ import sys
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from call_function import available_functions
+from call_function import available_functions, call_function
+# from config import WOORKING_DIR
+# from functions.call_function import call_function
 
 def main():
     load_dotenv()
@@ -19,6 +21,8 @@ When a user asks a question or makes a request, make a function call plan. You c
 - Write or overwrite files
 
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
+
+If "run" shows up, I want you to execute a file.
 """
 
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -30,6 +34,7 @@ All paths you provide should be relative to the working directory. You do not ne
     #     sys.exit(1)
 
     #Boot.Dev's code, which I like better
+    verbose = "--verbose" in sys.argv
     args = sys.argv[1:]
 
     if not args:
@@ -50,17 +55,30 @@ All paths you provide should be relative to the working directory. You do not ne
         config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
     )
 
-    if not response.function_calls:
-        print(response.text)
-        
-    for function_call_part in response.function_calls:
-        print(f"Calling function: {function_call_part.name}({function_call_part.args})")
-
     if "--verbose" in args:
         print(f"User prompt: {user_prompt}")
         print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
         print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
-    
+
+    if not response.function_calls:
+        print(response.text)
+
+    function_responses = []
+    for function_call_part in response.function_calls:
+        function_call_result = call_function(function_call_part, verbose)
+        if (
+            not function_call_result.parts
+            or not function_call_result.parts[0].function_response
+        ):
+            raise Exception("empty function call result")
+        if verbose:
+            print(f"-> {function_call_result.parts[0].function_response.response}")
+        function_responses.append(function_call_result.parts[0])
+
+    if not function_responses:
+        raise Exception("no function responses generated, exiting.")
+
+
 
 if __name__ == "__main__":
     main()
