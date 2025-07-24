@@ -1,0 +1,46 @@
+import os
+import subprocess
+
+def run_python_file(working_directory, file_path, args=[]):
+    full_working_directory = os.path.abspath(working_directory)
+    # full_file_path = os.path.abspath(os.path.join(full_working_directory, )file_path)
+    full_file_path = os.path.abspath(os.path.join(working_directory, file_path))
+    # file_path_dirs = os.path.dirname(full_file_path)
+
+    if not full_file_path.startswith(full_working_directory):
+        return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
+    
+    if not os.path.exists(full_file_path):
+        return f'Error: File "{file_path}" not found.'
+    
+    if not file_path.endswith(".py"):
+        return f'Error: "{file_path}" is not a Python file.'
+    
+    # func_to_call = ["uv", "run", full_file_path] + args
+    
+    try:
+        commands = ["uv", "run", full_file_path]
+        if args:
+            commands.extend(args)
+        
+        output = []
+        result = subprocess.run(
+            commands, 
+            capture_output=True, 
+            encoding="UTF-8", 
+            timeout=30)
+        if result.stdout:
+            output.append(f"STDOUT:\n{result.stdout}")
+        if result.stderr:
+            output.append(f"STDERR:\n{result.stderr}")
+
+        if result.returncode != 0:
+            output.append(f"Process exited with code {result.returncode}")
+        
+        return "\n".join(output) if output else "No output produced"
+    except Exception as e:
+        return f"Error: executing Python file: {e}"
+
+    
+# print(run_python_file("calculator", "../main.py"))
+# print(run_python_file("functions", "get_file_content.py"))

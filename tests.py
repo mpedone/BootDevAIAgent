@@ -1,13 +1,25 @@
 # tests in the main folder
 
 import unittest, os
-from functions.write_file_content import write_file
+# from functions.write_file_content import write_file
+from functions.run_python import run_python_file
 # from functions.get_file_content import get_file_content
 # from functions.get_files_info import get_files_info
 
 
 def test():
-    result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
+    result = run_python_file("calculator", "main.py")
+    print(result)
+    result = run_python_file("calculator", "main.py", ["3 + 5"])
+    print(result)
+    result = run_python_file("calculator", "tests.py")
+    print(result)
+    result = run_python_file("calculator", "../main.py")
+    print(result)
+    result = run_python_file("calculator", "nonexistent.py")
+    print(result)
+
+"""     result = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
     print("Result for current directory:")
     print(result)
     print("")
@@ -20,9 +32,9 @@ def test():
     result = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
     print("Result for current directory:")
     print(result)
-    print("")
+    print("") """
 
-    """ result = get_file_content("calculator", "lorem.txt")
+""" result = get_file_content("calculator", "lorem.txt")
     print("Result for current directory:")
     print(result)
     print("")
@@ -42,7 +54,7 @@ def test():
     print(result)
     print("") """
 
-    """ 
+""" 
     class TestGetFilesInfo(unittest.TestCase):
         def test_simple(self):
         test_output = get_files_info("calculator", "pkg")
@@ -110,7 +122,7 @@ def test():
         expected = f'Error: "main.py" is not a directory'
         self.assertEqual(test_output, expected) """
     
-    """ def test_abs_path(self):
+""" def test_abs_path(self):
         test_output = get_files_info("/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent", "/home/mattpedone/workspace/GITHUB/mpedone/BootDevAIAgent/calculator")
         expected = "- pkg: file_size=4096 bytes, is_dir=True\n- main.py: file_size=575 bytes, is_dir=False\n- tests.py: file_size=1342 bytes, is_dir=False"
         self.assertEqual(test_output, expected)

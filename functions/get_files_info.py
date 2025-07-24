@@ -1,5 +1,7 @@
 import os
 from os.path import getsize, isdir, abspath, join
+# from google import genai
+from google.genai import types
 
 def get_files_info(working_directory, directory=None):
     if not working_directory:
@@ -28,6 +30,20 @@ def get_files_info(working_directory, directory=None):
 
     return file_info
 
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+        },
+    ),
+)
+
 
 # print(get_files_info("calculator", "."))
-print(get_files_info(".", "pkg"))
+# print(get_files_info(".", "pkg"))
