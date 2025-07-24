@@ -1,11 +1,10 @@
 import os
 import subprocess
+from google.genai import types
 
 def run_python_file(working_directory, file_path, args=[]):
     full_working_directory = os.path.abspath(working_directory)
-    # full_file_path = os.path.abspath(os.path.join(full_working_directory, )file_path)
     full_file_path = os.path.abspath(os.path.join(working_directory, file_path))
-    # file_path_dirs = os.path.dirname(full_file_path)
 
     if not full_file_path.startswith(full_working_directory):
         return f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory'
@@ -15,9 +14,7 @@ def run_python_file(working_directory, file_path, args=[]):
     
     if not file_path.endswith(".py"):
         return f'Error: "{file_path}" is not a Python file.'
-    
-    # func_to_call = ["uv", "run", full_file_path] + args
-    
+        
     try:
         commands = ["uv", "run", full_file_path]
         if args:
@@ -41,6 +38,23 @@ def run_python_file(working_directory, file_path, args=[]):
     except Exception as e:
         return f"Error: executing Python file: {e}"
 
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Execute Python files with optional arguments, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file path of the python file to run, relative to the working directory.",
+            ),
+            "args": types.Schema(
+                type=types.Type.STRING,
+                description="Optional arguments to pass to the function call."
+            )
+        },
+    ),
+)
     
 # print(run_python_file("calculator", "../main.py"))
 # print(run_python_file("functions", "get_file_content.py"))

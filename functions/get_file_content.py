@@ -1,6 +1,7 @@
 import os
 from os.path import getsize, abspath, join, isfile
 from config import MAX_CHARS
+from google.genai import types
 
 def get_file_content(working_directory, file_path):
     if not working_directory:
@@ -25,5 +26,20 @@ def get_file_content(working_directory, file_path):
         return read_data
     except Exception as e:
         return f"Error reading files: {e}"
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Read the contents of file up to 10000 characters, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The file path to pull content from, relative to the working directory.",
+            ),
+        },
+    ),
+)
+
 
 # print(get_file_content("calculator", "lorem.txt"))
